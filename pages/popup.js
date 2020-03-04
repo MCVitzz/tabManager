@@ -15,9 +15,12 @@ save.onclick = function(element) {
 load.onclick = function(element) {
   let data = local.get(dataKey);
   chrome.windows.create(null, function(window) {
-    window.tabs.push
+    data.forEach(function(item) {
+      chrome.tabs.create({ url: item.url, windowId: window.id });
+    });
+    chrome.tabs.remove(window.tabs[0].id);
   });
-}
+};
 
 function getIt() {
   console.log(local.get(dataKey));
